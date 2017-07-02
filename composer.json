@@ -19,6 +19,6 @@
         "phpunit/phpunit": "~4.8"
     },
     "autoload": {
-        "psr-4": {"Adminamazing\\": "src/"}
+        "psr-4": {"Selfreliance\\Adminamazing\\": "packages/selfreliance/adminamazing/src"}
     }
 }
