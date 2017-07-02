@@ -1,7 +1,7 @@
 {
     "name": "selfreliance/adminamazing",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "Admin for service laravel",
     "keywords": ["admin", "laravel"],
     "homepage": "https://github.com/selfrelianceme/adminamazing",
@@ -19,6 +19,6 @@
         "phpunit/phpunit": "~4.8"
     },
     "autoload": {
-        "psr-4": {"Selfreliance\\Adminamazing\\": "packages/selfreliance/adminamazing/src"}
+        "psr-4": {"Selfreliance\\Adminamazing\\": "src/"}
     }
 }
