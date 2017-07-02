@@ -1,0 +1,14 @@
+{
+    "name": "selfreliance/adminamazing",
+    "description": "full admin",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vlad Kit",
+            "email": "vladwebkit@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
