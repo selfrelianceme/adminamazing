@@ -18,7 +18,7 @@ class AdminAmazingServiceProvider extends ServiceProvider
         $this->app->make('Selfreliance\Adminamazing\AdminController');
         $this->loadViewsFrom(__DIR__.'/views', 'adminamazing');
         $this->publishes([
-            __DIR__.'/assets' => public_path('vendor/adminamazing'),
+            __DIR__.'/views' => public_path('views/vendor/adminamazing'),
         ], 'public');
     }
 
