@@ -1,12 +1,25 @@
-# adminamazing
+Laravel 5 adminamazing
+======================
 base admin for laravel
 simple
 
-add to config/app.php
 
+-----------------
+Install via composer
+```
+composer require selfreliance/adminamazing
+```
+
+Add Service Provider to `config/app.php` in `providers` section
+```php
 Selfreliance\Adminamazing\AdminAmazingServiceProvider::class,
+```
 
-run command 
+
+Go to `http://myapp/admin` to view admin amazing
+
+**Move public fields** for view customization:
+
+```
 php artisan vendor:publish
-
-use: /admin
+``` 
