@@ -181,13 +181,13 @@
                             <div class="card-block">
                                 <ul class="list-inline pull-right">
                                     <li>
-                                        <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-success"></i>2016</h6>
+                                        <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-success"></i>Регистраций</h6>
                                     </li>
                                     <li>
-                                        <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-info"></i>2017</h6>
+                                        <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-info"></i>Транзакций</h6>
                                     </li>
                                 </ul>
-                                <h4 class="card-title">Total Revenue</h4>
+                                <h4 class="card-title">Динамика</h4>
                                 <div class="clear"></div>
                                 <div class="total-revenue" style="height: 240px;"></div>
                             </div>
@@ -204,7 +204,7 @@
                                     <div class="row p-t-10 p-b-10">
                                         <!-- Column -->
                                         <div class="col p-r-0">
-                                            <h1 class="font-light">86</h1>
+                                            <h1 class="font-light">{{$CountAllUsers}}</h1>
                                             <h6 class="text-muted">Новых клиентов</h6></div>
                                         <!-- Column -->
                                         <div class="col text-right align-self-center">
