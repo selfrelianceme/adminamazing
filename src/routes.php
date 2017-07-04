@@ -1,4 +1,3 @@
 <?php
-
-Route::get('admin', 'selfreliance\adminamazing\AdminController@index')->name('AdminMain');
+	Route::get(config('adminamazing.path'), 'selfreliance\adminamazing\AdminController@index')->name('AdminMain');
 

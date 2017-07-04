@@ -1,6 +1,6 @@
 @extends('adminamazing::teamplate')
 
-@section('pageTitle', 'Редактирование кошелька')
+@section('pageTitle', 'Панель управления')
 @section('content')
     <div class="row">
         <!-- Column -->

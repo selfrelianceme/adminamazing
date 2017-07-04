@@ -23,3 +23,6 @@ Go to `http://myapp/admin` to view admin amazing
 ```
 php artisan vendor:publish
 ``` 
+```
+php artisan vendor:publish --tag=config|assets --force
+``` 
