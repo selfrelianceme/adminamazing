@@ -21,8 +21,6 @@ Go to `http://myapp/admin` to view admin amazing
 **Move public fields** for view customization:
 
 ```
-php artisan vendor:publish
-``` 
-```
-php artisan vendor:publish --tag=config|assets --force
+php artisan vendor:publish --tag=config --force
+php artisan vendor:publish --tag=assets --force
 ``` 

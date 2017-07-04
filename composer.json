@@ -20,15 +20,5 @@
     },
     "autoload": {
         "psr-4": {"Selfreliance\\Adminamazing\\": "src/"}
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php artisan vendor:publish --tag=assets --force",
-            "php artisan vendor:publish --tag=config --force"
-        ],
-        "post-update-cmd": [
-            "php artisan vendor:publish --tag=assets --force",
-            "php artisan vendor:publish --tag=config --force"
-        ],
-    },
+    }
 }
