@@ -20,7 +20,7 @@ class AdminController extends Controller
     	foreach($pks->require as $name=>$ver){
     		$a = explode("/", $name);
     		if($a[0] == $this->vendor && $a[1] != $this->library){
-    			echo $a[1];
+    			// echo $a[1];
     		}
     	}
         $CountAllUsers = User::count("id");
