@@ -52,7 +52,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header text-center">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="/{{ config('adminamazing.path') }}">
                         <!-- Logo icon -->
                         <b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -137,6 +137,9 @@
                         </li>
                         <li>
                             <a class="has-arrow" href="{{ route('AdminUsers') }}" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Пользователи </span></a>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="{{ route('AdminApiTokens') }}" aria-expanded="false"><i class="mdi mdi-access-point-network"></i><span class="hide-menu">API Токены </span></a>
                         </li>                       
                     </ul>
                 </nav>
@@ -162,7 +165,7 @@
                     <div class="col-md-6 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">@yield('pageTitle')</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Сайт</a></li>
+                            <li class="breadcrumb-item"><a target="_blank" href="/">Сайт</a></li>
                             <li class="breadcrumb-item active">@yield('pageTitle')</li>
                         </ol>
                     </div>

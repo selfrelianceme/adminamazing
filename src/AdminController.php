@@ -14,7 +14,7 @@ class AdminController extends Controller
 
     public function index()
     {
-
+        
     	$contents = File::get(__DIR__.'/../../../../composer.json');
     	$pks = json_decode($contents);
     	foreach($pks->require as $name=>$ver){
