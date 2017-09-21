@@ -17,6 +17,7 @@
     <link href="{{ asset('vendor/adminamazing/assets/plugins/chartist-js/dist/chartist.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/chartist-js/dist/chartist-init.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/css-chart/css-chart.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -110,6 +111,7 @@
                     <!-- ============================================================== -->
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
+                    <!-- -->
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item hidden-sm-down">
                             <form class="app-search">
@@ -138,17 +140,27 @@
                         <li>
                             <a class="has-arrow" href="{{ route('AdminUsers') }}" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Пользователи </span></a>
                         </li>
-                        <li>
-                            <a class="has-arrow" href="{{ route('AdminApiTokens') }}" aria-expanded="false"><i class="mdi mdi-access-point-network"></i><span class="hide-menu">API Токены </span></a>
-                        </li>                       
+                        @foreach($decodeArrayJson as $oneJson)
+
+                            @if(count($oneJson->route) < 2)
+                                <li>
+                                    <a class="has-arrow" href="{{ route($oneJson->route) }}" aria-expanded="false"><i class="{{$oneJson->icon}}"></i><span class="hide-menu">{{$oneJson->description}}</span></a>
+                                </li>
+                            @elseif(count($oneJson->route) == 2)
+                                <li>
+                                    <a class="has-arrow" href="{{ route($oneJson->route[0], $oneJson->route[1]) }}" aria-expanded="false"><i class="{{$oneJson->icon}}"></i><span class="hide-menu">{{$oneJson->description}}</span></a>
+                                </li>
+                            @endif
+
+                        @endforeach
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-        <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
@@ -244,6 +256,15 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="{{ asset('vendor/adminamazing/assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
+
+    <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/wysihtml5-0.3.0.js') }}"></script>
+    <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.js') }}"></script>
+    <script>
+    $(document).ready(function() {
+        $('.textarea_editor').wysihtml5(),
+        $('.textarea_editor1').wysihtml5()
+    });
+    </script>
 </body>
 
 </html>
