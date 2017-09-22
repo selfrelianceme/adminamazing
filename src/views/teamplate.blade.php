@@ -137,8 +137,12 @@
                         <li>
                             <a class="has-arrow" href="{{ route('AdminMain') }}" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Управление </span></a>
                         </li>
-                        <li>
+                         <li>
                             <a class="has-arrow" href="{{ route('AdminUsers') }}" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Пользователи </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="{{ route('AdminUsers') }}">Список пользователей</a></li>
+                                <li><a href="{{ route('AdminRolesHome') }}">Роли админов</a></li>
+                            </ul>
                         </li>
                         @foreach($decodeArrayJson as $oneJson)
 
