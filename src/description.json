@@ -1,0 +1,5 @@
+{
+  "route": "AdminMain",
+  "description": "Управление",
+  "icon": "mdi mdi-gauge"
+}
