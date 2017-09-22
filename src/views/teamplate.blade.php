@@ -144,13 +144,13 @@
                                 <li><a href="{{ route('AdminRolesHome') }}">Роли админов</a></li>
                             </ul>
                         </li>
-                        @foreach($decodeArrayJson as $oneJson)
+                       @foreach($decodeArrayJson as $oneJson)
 
-                            @if(count($oneJson->route) < 2)
+                            @if(count($oneJson->route) < 2 && !array_key_exists('subMenuUsers', $oneJson))
                                 <li>
                                     <a class="has-arrow" href="{{ route($oneJson->route) }}" aria-expanded="false"><i class="{{$oneJson->icon}}"></i><span class="hide-menu">{{$oneJson->description}}</span></a>
                                 </li>
-                            @elseif(count($oneJson->route) == 2)
+                            @elseif(count($oneJson->route) == 2 && !array_key_exists('subMenuUsers', $oneJson))
                                 <li>
                                     <a class="has-arrow" href="{{ route($oneJson->route[0], $oneJson->route[1]) }}" aria-expanded="false"><i class="{{$oneJson->icon}}"></i><span class="hide-menu">{{$oneJson->description}}</span></a>
                                 </li>
