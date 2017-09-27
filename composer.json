@@ -1,7 +1,7 @@
 {
     "name": "selfreliance/adminamazing",
     "type": "library",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Admin for service laravel",
     "keywords": ["admin", "laravel"],
     "homepage": "https://github.com/selfrelianceme/adminamazing",
@@ -12,6 +12,13 @@
             "email": "vladwebkit@gmail.com"
         }
     ],
+    "extra": {
+      	"laravel":{
+          	"providers": [
+           	 	"Selfreliance\\Adminamazing\\AdminAmazingServiceProvider"
+          	]
+      }
+ 	},
     "require": {
         "php": ">=5.3.0"
     },

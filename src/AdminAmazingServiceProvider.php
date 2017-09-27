@@ -41,6 +41,12 @@ class AdminAmazingServiceProvider extends ServiceProvider
 
     public function menuShare()
     {
+
+		//$strDir = realpath(__DIR__ . '/../..');
+        //$arr = explode("s", $strDir);
+
+        //dd($strDir);
+
         $this->scandir_recursive(base_path()."/packages/selfreliance");
         $decodeArrayJson = array();
         foreach ($this->dirResult as $result) {
