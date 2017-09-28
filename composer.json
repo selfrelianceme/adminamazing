@@ -1,7 +1,7 @@
 {
     "name": "selfreliance/adminamazing",
     "type": "library",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "description": "Admin for service laravel",
     "keywords": ["admin", "laravel"],
     "homepage": "https://github.com/selfrelianceme/adminamazing",

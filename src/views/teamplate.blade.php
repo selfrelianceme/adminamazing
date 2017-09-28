@@ -1,3 +1,20 @@
+@php
+    $response = DB::table('admin__sections')->whereRaw('json_contains(privilegion, \'["'.Request::route()->getPrefix().'"]\')')->get();
+    $user = Auth::User();
+    if(count($response) > 0 && $user){
+        $good = false;
+        foreach($response as $role)
+        {
+            if($user->isRole($role->name))
+            {
+                $good = true;
+                break;
+            }
+        }
+        if(!$good) return abort(404);
+    }else return abort(404);
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,21 +152,24 @@
                     <ul id="sidebarnav">
                         <li class="nav-small-cap">PERSONAL</li>
                         <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Пользователи </span></a>
+                            <a class="has-arrow" href="{{ route('AdminMain') }}" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Управление </span></a>
+                        </li>
+                         <li>
+                            <a class="has-arrow" href="{{ route('AdminUsers') }}" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Пользователи </span></a>
                             <ul aria-expanded="false" class="collapse">
-                                @foreach($decodeArrayJson as $subMenu)
-                                    @if(array_key_exists('subMenuUsers', $subMenu))
-                                        <li><a href="{{ route($subMenu->route) }}">{{$subMenu->description}}</a></li>
-                                    @endif
-                                @endforeach
+                                <li><a href="{{ route('AdminUsers') }}">Список пользователей</a></li>
+                                <li><a href="{{ route('AdminRolesHome') }}">Роли админов</a></li>
                             </ul>
                         </li>
-
                        @foreach($decodeArrayJson as $oneJson)
 
-                            @if(!array_key_exists('subMenuUsers', $oneJson))
+                            @if(count($oneJson->route) < 2 && !array_key_exists('subMenuUsers', $oneJson))
                                 <li>
                                     <a class="has-arrow" href="{{ route($oneJson->route) }}" aria-expanded="false"><i class="{{$oneJson->icon}}"></i><span class="hide-menu">{{$oneJson->description}}</span></a>
+                                </li>
+                            @elseif(count($oneJson->route) == 2 && !array_key_exists('subMenuUsers', $oneJson))
+                                <li>
+                                    <a class="has-arrow" href="{{ route($oneJson->route[0], $oneJson->route[1]) }}" aria-expanded="false"><i class="{{$oneJson->icon}}"></i><span class="hide-menu">{{$oneJson->description}}</span></a>
                                 </li>
                             @endif
 
