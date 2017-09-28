@@ -1,5 +1,6 @@
 {
   "route": "AdminMain",
   "description": "Управление",
-  "icon": "mdi mdi-gauge"
+  "icon": "mdi mdi-gauge",
+  "prefix": "admin"
 }
