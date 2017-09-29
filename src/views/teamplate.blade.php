@@ -1,20 +1,3 @@
-@php
-    $response = DB::table('admin__sections')->whereRaw('json_contains(privilegion, \'["'.Request::route()->getPrefix().'"]\')')->get();
-    $user = Auth::User();
-    if(count($response) > 0 && $user){
-        $good = false;
-        foreach($response as $role)
-        {
-            if($user->isRole($role->name))
-            {
-                $good = true;
-                break;
-            }
-        }
-        if(!$good) return abort(404);
-    }else return abort(404);
-@endphp
-
 <!DOCTYPE html>
 <html lang="en">
 
