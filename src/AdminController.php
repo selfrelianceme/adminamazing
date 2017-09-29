@@ -12,6 +12,11 @@ class AdminController extends Controller
 	public $vendor = "selfreliance";
 	public $library = "adminamazing";
 
+    public function __construct()
+    {
+        $this->middleware('CheckAccess');
+    }
+
     public function index()
     {
         
