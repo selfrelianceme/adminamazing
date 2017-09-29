@@ -114,8 +114,11 @@
                     <!-- -->
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item hidden-sm-down">
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Поиск..."> <a class="srh-btn"><i class="ti-search"></i></a> </form>
+                            <form id="my_form" action="{{route('AdminSearchUsers')}}" method="POST" class="app-search" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                <input type="text" name="userName" class="form-control" placeholder="Поиск пользователя...">
+                                <button class="btn-link srh-btn"><i class="ti-search"></i></button>
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -142,7 +145,7 @@
                             @endif
                         @endforeach
                         <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Пользователи </span></a>
+                            <a class="has-arrow" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Управление пользователями </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 @foreach($decodeArrayJson as $subMenu)
                                     @if(array_key_exists('subMenuUsers', $subMenu))
