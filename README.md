@@ -11,12 +11,23 @@ Install via composer
 ```
 composer require selfreliance/adminamazing
 ```
+
 Config
 ```php
-php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --tag="config" --force
 ```
 
-If you have already install/installed package roles - [click here](https://github.com/selfrelianceme/fixroles/blob/master/README.md)
+Middleware
+```php
+php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --tag="middleware" --force
+```
+
+If you want to get styles then
+```php
+php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProdiver" --tag="assets" --force
+```
+
+And if you have already install/installed package roles - [click here](https://github.com/selfrelianceme/fixroles/blob/master/README.md)
 
 
 ## Functions
