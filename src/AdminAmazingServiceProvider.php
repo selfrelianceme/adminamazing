@@ -72,6 +72,10 @@ class AdminAmazingServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/configs/adminamazing.php' => config_path('adminamazing.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/middleware/CheckAccess.php' => app_path('Http/Middleware/CheckAccess.php'),
+        ], 'middleware');
     }
 
     /**

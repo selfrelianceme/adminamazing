@@ -24,6 +24,8 @@ class CheckAccess
                 if($user->isRole($role->name))
                 {
                     $good = true;
+                    $available = \DB::table('admin__sections')->where('name', $role->name)->value('privilegion');
+                    \View::share('available', json_decode($available));
                     break;
                 }
             }
