@@ -138,7 +138,7 @@
                     <ul id="sidebarnav">
                         <li class="nav-small-cap">PERSONAL</li>
                         @foreach($decodeArrayJson as $oneJson)
-                            @if(!array_key_exists('subMenuUsers', $oneJson) && in_array($oneJson->prefix, $available))
+                            @if(!array_key_exists('subMenuUsers', $oneJson) && in_array($oneJson->prefix, @$available))
                                 <li>
                                     <a class="has-arrow {{ (Request::route()->getPrefix() == $oneJson->prefix) ? 'active' : NULL }}" href="{{ route($oneJson->route) }}" aria-expanded="false"><i class="{{$oneJson->icon}}"></i><span class="hide-menu">{{$oneJson->description}}</span></a>
                                 </li>
@@ -146,14 +146,14 @@
                         @endforeach
                         <li>
                             @foreach($decodeArrayJson as $subMenu)
-                                @if(array_key_exists('subMenuUsers', $subMenu) && in_array($subMenu->prefix, $available))
+                                @if(array_key_exists('subMenuUsers', $subMenu) && in_array($subMenu->prefix, @$available))
                                     <a class="has-arrow" aria-expanded="false"><i class="mdi mdi-account-convert"></i><span class="hide-menu">Управление пользователями </span></a>
                                     @break;
                                 @endif
                             @endforeach
                             <ul aria-expanded="false" class="collapse">
                                 @foreach($decodeArrayJson as $subMenu)
-                                    @if(array_key_exists('subMenuUsers', $subMenu) && in_array($subMenu->prefix, $available))
+                                    @if(array_key_exists('subMenuUsers', $subMenu) && in_array($subMenu->prefix, @$available))
                                         <li class="{{ (Request::route()->getPrefix() == $oneJson->prefix) ? 'active' : NULL }}"><a href="{{ route($subMenu->route) }}">{{$subMenu->description}}</a></li>
                                     @endif
                                 @endforeach
