@@ -66,11 +66,11 @@ class AdminAmazingServiceProvider extends ServiceProvider
 
         // Стили, скрипты, необходимо поместить в папку паблик
         $this->publishes([
-            __DIR__.'/assets' => public_path('vendor/adminamazing'),
+            __DIR__.'/assets/' => public_path('vendor/adminamazing'),
         ], 'assets');
 
         $this->publishes([
-            __DIR__.'/configs/adminamazing.php' => config_path('adminamazing.php'),
+            __DIR__.'/config/adminamazing.php' => config_path('adminamazing.php'),
         ], 'config');
 
         $this->publishes([
