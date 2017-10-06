@@ -26,13 +26,16 @@ class CheckAccess
                 {
                     $good = true;
                     $arr = \DB::table('admin__menu')->get();
-                    $new = array();
-                    foreach ($arr as $a){
-                        $new[$a->parent][] = $a;
-                    }
-                    $tree = AdminAmazingServiceProvider::createTree($new, $new[0]);
-                    AdminAmazingServiceProvider::showTree($tree, $role->name);
-                    break;
+                    if(count($arr) > 0)
+                    {
+                        $new = array();
+                        foreach ($arr as $a){
+                            $new[$a->parent][] = $a;
+                        }
+                        $tree = AdminAmazingServiceProvider::createTree($new, $new[0]);
+                        AdminAmazingServiceProvider::showTree($tree, $role->name);
+                        break;
+                    }else return abort(404);
                 }
             }
             if(!$good) return abort(404);
