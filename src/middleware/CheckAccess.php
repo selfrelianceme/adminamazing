@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Selfreliance\Adminamazing\AdminAmazingServiceProvider;
 
 class CheckAccess
 {
@@ -24,8 +25,13 @@ class CheckAccess
                 if($user->isRole($role->name))
                 {
                     $good = true;
-                    $available = \DB::table('admin__sections')->where('name', $role->name)->value('privilegion');
-                    \View::share('available', json_decode($available));
+                    $arr = \DB::table('admin__menu')->get();
+                    $new = array();
+                    foreach ($arr as $a){
+                        $new[$a->parent][] = $a;
+                    }
+                    $tree = AdminAmazingServiceProvider::createTree($new, $new[0]);
+                    AdminAmazingServiceProvider::showTree($tree, $role->name);
                     break;
                 }
             }
