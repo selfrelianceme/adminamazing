@@ -12,7 +12,12 @@ class AdminController extends Controller
     {
         $tree = array();
         foreach ($parent as $k=>$l){
-            if(in_array($l->package, $accessible)){
+            if(is_null($accessible)){
+                if(isset($list[$l->id])){
+                    $l->children = self::createTree($list, $list[$l->id], $accessible);
+                }
+                $tree[] = $l;
+            }else if(in_array($l->package, $accessible)){
                 if(isset($list[$l->id])){
                     $l->children = self::createTree($list, $list[$l->id], $accessible);
                 }
@@ -34,12 +39,13 @@ class AdminController extends Controller
             }
             $menu .= '</li>';
         }else if($type == 2){
-            $menu = '<li class="dd-item" data-id="'.$category->id.'">';
-            $menu .= '<div class="dd-handle">'.$category->title.'</div>';
+            $menu = '<li class="dd-item dd3-item" data-id="'.$category->id.'">';
+            $menu .= '<div class="dd-handle dd3-handle"></div>';
+            $menu .= '<div class="dd3-content">'.$category->title;
+            $menu .= '<div style="text-align: right;"><a href='.route('AdminMenuDelete', $category->id).'  data-toggle="tooltip" data-original-title="Удалить"><i class="fa fa-close text-danger"></i></a></div></div>';
             if(isset($category->children)){
                 $menu .= '<ol class="dd-list">'.self::showTree($category->children, $type).'</ol>';
             }
-            $menu .= '</li>';
         }
         return $menu;
     }

@@ -259,7 +259,7 @@
                 output = list.data('output');
 
             $.ajax({
-                    url: '/admin/adminrole/tree',
+                    url: '{{route('AdminMenuUpdate')}}',
                     method: 'PUT',
                     data: {
                         tree: list.nestable('serialize')
@@ -268,7 +268,7 @@
                         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(res) {
-                        console.log(location.pathname);
+                        console.log(res);
                     }
             });
 
@@ -279,11 +279,11 @@
             }
         };
 
-        $('#nestable').nestable({
+        $('#nestable2').nestable({
             group: 1
         }).on('change', updateOutput);
 
-        updateOutput($('#nestable').data('output', $('#nestable-output')));
+        updateOutput($('#nestable2').data('output', $('#nestable-output')));
 
         $('#nestable-menu').on('click', function(e) {
             var target = $(e.target),
