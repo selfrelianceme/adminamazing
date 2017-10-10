@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Selfreliance\Adminamazing\AdminAmazingServiceProvider;
+use Selfreliance\Adminamazing\AdminController;
 
 class CheckAccess
 {
@@ -16,30 +16,26 @@ class CheckAccess
      */
     public function handle($request, Closure $next)
     {
-        $prefix = \Route::current()->getPrefix();
-        $response = \DB::table('admin__sections')->whereRaw('json_contains(privilegion, \'["'.$prefix.'"]\')')->get();
-        $user = \Auth::User();
-        if(count($response) > 0 && $user){
-            $good = false;
-            foreach($response as $role){
-                if($user->isRole($role->name))
-                {
-                    $good = true;
-                    $arr = \DB::table('admin__menu')->get();
-                    if(count($arr) > 0)
-                    {
-                        $new = array();
-                        foreach ($arr as $a){
-                            $new[$a->parent][] = $a;
-                        }
-                        $tree = AdminAmazingServiceProvider::createTree($new, $new[0]);
-                        AdminAmazingServiceProvider::showTree($tree, $role->name);
+        $url = explode('/', \Route::current()->getPrefix());
+        $prefix = (is_null(@$url[1])) ? (is_null($url[0])) ? null : $url[0] : $url[1];
+        $get_user = \Auth::User();
+        if(!is_null($get_user)){
+            $response = \DB::table('roles')->whereRaw('json_contains(accessible_pages, \'["'.$prefix.'"]\')')->get();
+            if(count($response) > 0){
+                $good = false;
+                foreach($response as $role){
+                    if($get_user->isRole($role->slug)){
+                        $good = true;
+                        $menu = \DB::table('admin__menu')->orderBy('sort', 'asc')->get();
+                        $pages = $role->accessible_pages;
+                        $result = AdminController::makeMenu($menu, json_decode($pages), 1);
+                        \View::share('menu', $result);
                         break;
-                    }else return abort(404);
+                    }
+                    if(!$good) return abort(404);
                 }
-            }
-            if(!$good) return abort(404);
-        }else return abort(404);
+            }else return abort(404);
+        }else if(!is_null($prefix)) return abort(404);
         return $next($request);
     }
 }

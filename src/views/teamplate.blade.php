@@ -18,6 +18,7 @@
     <link href="{{ asset('vendor/adminamazing/assets/plugins/chartist-js/dist/chartist-init.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/adminamazing/assets/plugins/nestable/nestable.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/adminamazing/assets/plugins/css-chart/css-chart.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -30,6 +31,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -244,12 +246,58 @@
     <!-- ============================================================== -->
     <script src="{{ asset('vendor/adminamazing/assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
 
+    <script src="{{ asset('vendor/adminamazing/assets/plugins/nestable/jquery.nestable.js') }}"></script>
     <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/wysihtml5-0.3.0.js') }}"></script>
     <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.js') }}"></script>
     <script>
     $(document).ready(function() {
         $('.textarea_editor').wysihtml5(),
-        $('.textarea_editor1').wysihtml5()
+        $('.textarea_editor1').wysihtml5();
+
+        var updateOutput = function(e) {
+            var list = e.length ? e : $(e.target),
+                output = list.data('output');
+
+            $.ajax({
+                    url: '/admin/adminrole/tree',
+                    method: 'PUT',
+                    data: {
+                        tree: list.nestable('serialize')
+                    },
+                    headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(res) {
+                        console.log(location.pathname);
+                    }
+            });
+
+            if (window.JSON) {           
+                output.val(window.JSON.stringify(list.nestable('serialize'))); //, null, 2));
+            } else {
+                output.val('JSON browser support required for this demo.');
+            }
+        };
+
+        $('#nestable').nestable({
+            group: 1
+        }).on('change', updateOutput);
+
+        updateOutput($('#nestable').data('output', $('#nestable-output')));
+
+        $('#nestable-menu').on('click', function(e) {
+            var target = $(e.target),
+                action = target.data('action');
+
+            if (action === 'expand-all') {
+                $('.dd').nestable('expandAll');
+            }
+            if (action === 'collapse-all') {
+                $('.dd').nestable('collapseAll');
+            }
+        });
+
+        $('#nestable-menu').nestable();
     });
     </script>
 </body>
