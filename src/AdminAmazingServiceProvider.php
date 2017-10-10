@@ -30,10 +30,6 @@ class AdminAmazingServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/migrations/' => database_path('migrations'),
-        ], 'migrations');        
-
-        $this->publishes([
             __DIR__.'/middleware/CheckAccess.php' => app_path('Http/Middleware/CheckAccess.php'),
         ], 'middleware');
     }
