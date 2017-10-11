@@ -32,8 +32,8 @@ class CheckAccess
                         \View::share('menu', $result);
                         break;
                     }
-                    if(!$good) return abort(404);
                 }
+                if(!$good) return abort(404);
             }else return abort(404);
         }else if(!is_null($prefix)) return abort(404);
         return $next($request);
