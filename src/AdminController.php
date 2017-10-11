@@ -42,7 +42,7 @@ class AdminController extends Controller
             $menu = '<li class="dd-item dd3-item" data-id="'.$category->id.'">';
             $menu .= '<div class="dd-handle dd3-handle"></div>';
             $menu .= '<div class="dd3-content">'.$category->title;
-            $menu .= '<div style="text-align: right;"><a href='.route('AdminMenuDelete', $category->id).'  data-toggle="tooltip" data-original-title="Удалить"><i class="fa fa-close text-danger"></i></a></div></div>';
+            $menu .= '<div class="pull-right"><a href='.route('AdminMenuDelete', $category->id).'  data-toggle="tooltip" data-original-title="Удалить"><i class="fa fa-close text-danger"></i></a></div></div>';
             if(isset($category->children)){
                 $menu .= '<ol class="dd-list">'.self::showTree($category->children, $type).'</ol>';
             }
