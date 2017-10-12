@@ -33,7 +33,7 @@ class AdminController extends Controller
             $package = ($category->package == config('adminamazing.path')) ? config('adminamazing.path') : config('adminamazing.path').'/'.$category->package;
             $check = (\Request::route()->getPrefix() == $package) ? ' active' : NULL;
             $menu = '<li>';
-            $menu .= '<a class="has-arrow'.$check.'" href="'.url($package).'" aria-expanded="false">'.$category->title.'</a>';
+            $menu .= '<a class="has-arrow'.$check.'" href="'.url($package).'" aria-expanded="false"><i class="'.$category->icon.'"></i>'.$category->title.'</a>';
             if(isset($category->children)){
                 $menu .= '<ul aria-expanded="false" class="collapse">'.self::showTree($category->children, $type).'</ul>';
             }
