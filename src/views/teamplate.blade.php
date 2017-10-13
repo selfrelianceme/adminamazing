@@ -224,6 +224,8 @@
     <script src="{{ asset('vendor/adminamazing/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{ asset('vendor/adminamazing/js/jquery.slimscroll.js') }}"></script>
+    <!-- chat -->
+    <script src="{{ asset('vendor/adminamazing/js/chat.js') }}"></script>
     <!--Wave Effects -->
     <script src="{{ asset('vendor/adminamazing/js/waves.js') }}"></script>
     <!--Menu sidebar -->

@@ -5,7 +5,7 @@ $(function () {
 
     "use strict";
 
-    $('.chat-left-inner > .chatonline').slimScroll({
+    $('.chat-left-inner').slimScroll({
         height: '100%',
         position: 'right',
         size: "5px",
