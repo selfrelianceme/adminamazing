@@ -17,7 +17,7 @@ class AdminController extends Controller
                     $l->children = self::createTree($list, $list[$l->id], $accessible);
                 }
                 $tree[] = $l;
-            }else if(in_array($l->package, $accessible)){
+            }else if(in_array($l->package, $accessible) || $l->package == 'nope'){
                 if(isset($list[$l->id])){
                     $l->children = self::createTree($list, $list[$l->id], $accessible);
                 }
@@ -33,7 +33,8 @@ class AdminController extends Controller
             $package = ($category->package == config('adminamazing.path')) ? config('adminamazing.path') : config('adminamazing.path').'/'.$category->package;
             $check = (\Request::route()->getPrefix() == $package) ? ' active' : NULL;
             $menu = '<li>';
-            $menu .= '<a class="has-arrow'.$check.'" href="'.url($package).'" aria-expanded="false"><i class="'.$category->icon.'"></i>'.$category->title.'</a>';
+            $icon = ($category->parent == 0) ? '<i class="'.$category->icon.'"></i>' : '';
+            $menu .= '<a class="has-arrow'.$check.'" href="'.url($package).'" aria-expanded="false">'.$icon.$category->title.'</a>';
             if(isset($category->children)){
                 $menu .= '<ul aria-expanded="false" class="collapse">'.self::showTree($category->children, $type).'</ul>';
             }

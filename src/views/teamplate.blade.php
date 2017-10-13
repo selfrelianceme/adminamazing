@@ -116,9 +116,8 @@
                     <!-- -->
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item hidden-sm-down">
-                            <form id="my_form" action="{{route('AdminSearchUsers')}}" method="POST" class="app-search" enctype="multipart/form-data">
-                                {{ csrf_field() }}
-                                <input type="text" name="userName" class="form-control" placeholder="Поиск пользователя...">
+                            <form action="{{route('AdminUsers')}}" method="GET" class="app-search" enctype="multipart/form-data">
+                                <input type="text" name="searchKey" class="form-control" placeholder="Поиск пользователя...">
                                 <button class="btn-link srh-btn"><i class="ti-search"></i></button>
                             </form>
                         </li>
