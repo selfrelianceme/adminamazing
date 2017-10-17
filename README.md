@@ -5,6 +5,7 @@ adminamazing - a package admin with basic roles and basic packages
 
 - [roles](https://github.com/selfrelianceme/fixroles)
 - [iusers](http://github.com/selfrelianceme/iusers)
+- [adminmenu](https://github.com/selfrelianceme/adminmenu)
 
 ## How to install
 
@@ -13,19 +14,9 @@ Install via composer
 composer require selfreliance/adminamazing
 ```
 
-Config
+Config, Middleware, Styles
 ```php
-php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --tag="config" --force
-```
-
-Middleware
-```php
-php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --tag="middleware" --force
-```
-
-Styles
-```php
-php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProdiver" --tag="assets" --force
+php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --force
 ```
 
 And if you have already install/installed package roles - [click here](https://github.com/selfrelianceme/fixroles/blob/master/README.md)

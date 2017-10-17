@@ -255,12 +255,24 @@
         $('.textarea_editor').wysihtml5(),
         $('.textarea_editor1').wysihtml5();
 
+        $('.edit_toggle').on('click', function(e){
+            var menu = jQuery.parseJSON( $(this).attr('data-rel') );
+            $('#editModal').find('input[type!=checkbox][name=title]').val(menu.title);
+            $('#editModal').find('input[type=hidden][name=id]').val(menu.id);
+        });
+
+        $('.delete_toggle').on('click', function(e){
+            var id = $(this).attr('data-rel');
+            console.log(id);
+            $('#deleteModal').find('input[type=hidden][name=id]').val(id);
+        });        
+
         var updateOutput = function(e) {
             var list = e.length ? e : $(e.target),
                 output = list.data('output');
 
             $.ajax({
-                    url: '{{route('AdminMenuUpdate')}}',
+                    url: '{{route('AdminMenuUpdate', 'tree')}}',
                     method: 'PUT',
                     data: {
                         tree: list.nestable('serialize')
