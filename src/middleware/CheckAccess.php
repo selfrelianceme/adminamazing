@@ -21,11 +21,13 @@ class CheckAccess
         $user = \Auth::User();
         if($user && $url[0] == 'admin'){
             $role = $user->getRole($user->role_id);
-            $pages = json_decode($role->accessible_pages);
-            if(in_array($prefix, $pages)){
-                $menu = DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                $result = makeMenu($menu, $pages, 1);
-                \View::share('menu', $result);
+            if(!is_null($role)){
+                $pages = json_decode($role->accessible_pages);
+                if(in_array($prefix, $pages)){
+                    $menu = DB::table('admin__menu')->orderBy('sort', 'asc')->get();
+                    $result = makeMenu($menu, $pages, 1);
+                    \View::share('menu', $result);
+                }else return abort(404);
             }else return abort(404);
         }else return abort(404);
         return $next($request);
