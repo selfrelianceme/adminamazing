@@ -26,7 +26,7 @@ class AdminAmazingServiceProvider extends ServiceProvider
         ], 'assets');
 
         $this->publishes([
-            __DIR__.'/configs/adminamazing.php' => config_path('adminamazing.php'),
+            __DIR__.'/config/adminamazing.php' => config_path('adminamazing.php'),
         ], 'config');
 
         $this->publishes([
