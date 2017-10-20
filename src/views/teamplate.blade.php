@@ -229,7 +229,8 @@
 
         $('.edit_toggle').on('click', function(e){
             var menu = jQuery.parseJSON( $(this).attr('data-rel') );
-            $('#editModal').find('input[type!=checkbox][name=title]').val(menu.title);
+            $('#editModal').find('input[name=title]').val(menu.title);
+            $('#editModal').find('input[name=icon]').val(menu.icon);
             $('#editModal').find('input[type=hidden][name=id]').val(menu.id);
         });
 
