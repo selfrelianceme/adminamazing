@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use DB;
 use View;
+use Auth;
 
 class CheckAccess
 {
@@ -27,7 +28,7 @@ class CheckAccess
                 if($role)
                 {
                     $menu = DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                    $result = makeMenu($menu, $pages, 1);
+                    $result = makeMenu($menu, $role, 1);
                     View::share('menu', $result);
                 }
                 else return abort(404);
