@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use DB;
+use View;
 
 class CheckAccess
 {
@@ -18,18 +19,21 @@ class CheckAccess
     {
         $url = explode('/', \Route::current()->getPrefix());
         $prefix = (!is_null(@$url[1])) ? $url[1] : $url[0];
-        $user = \Auth::User();
-        if($user && $url[0] == 'admin'){
-            $role = $user->getRole($user->role_id);
-            if(!is_null($role)){
-                $pages = json_decode($role->accessible_pages);
-                if(in_array($prefix, $pages)){
+        if($url[0] == 'admin')
+        {
+            if(Auth::check())
+            {
+                $role = Auth::User()->checkRole($prefix, true);
+                if($role)
+                {
                     $menu = DB::table('admin__menu')->orderBy('sort', 'asc')->get();
                     $result = makeMenu($menu, $pages, 1);
-                    \View::share('menu', $result);
-                }else return abort(404);
-            }else return abort(404);
-        }else return abort(404);
+                    View::share('menu', $result);
+                }
+                else return abort(404);
+            }
+            else return abort(404);
+        }
         return $next($request);
     }
 }

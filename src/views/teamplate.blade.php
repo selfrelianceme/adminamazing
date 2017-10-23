@@ -110,9 +110,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li class="nav-small-cap">PERSONAL</li>
-                        @php 
-                            echo($menu) 
-                        @endphp
+                        {!!$menu!!}
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -155,6 +153,23 @@
                     </div>
                 @endif
                 @yield('content')
+                <div class="modal fade" id="deleteModal" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="" method="POST" class="form-horizontal" id="deleteForm">
+                                <div class="modal-header"></div>
+                                <div class="modal-body">
+                                    <script>document.write(message)</script>
+                                </div>
+                                <div class="modal-footer">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-danger btn-block">Удалить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <!-- Row -->
                 <!-- Row -->
                 
@@ -235,9 +250,8 @@
         });
 
         $('.delete_toggle').on('click', function(e){
-            var id = $(this).attr('data-rel');
-            console.log(id);
-            $('#deleteModal').find('input[type=hidden][name=id]').val(id);
+            route = route+'/'+$(this).attr('data-id');
+            document.getElementById('deleteForm').setAttribute("action", route);
         });        
 
         var updateOutput = function(e) {
