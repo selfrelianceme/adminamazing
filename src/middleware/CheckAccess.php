@@ -24,12 +24,16 @@ class CheckAccess
         {
             if(Auth::check())
             {
-                $role = Auth::User()->checkRole($prefix, true);
-                if($role)
+                if(Auth::User()->role_id != -1)
                 {
-                    $menu = DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                    $result = makeMenu($menu, $role, 1);
-                    View::share('menu', $result);
+                    $role = Auth::User()->checkRole($prefix, true);
+                    if($role)
+                    {
+                        $menu = DB::table('admin__menu')->orderBy('sort', 'asc')->get();
+                        $result = makeMenu($menu, $role, 1);
+                        View::share('menu', $result);
+                    }
+                    else return abort(404);
                 }
                 else return abort(404);
             }
