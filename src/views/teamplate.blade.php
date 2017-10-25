@@ -147,11 +147,7 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <!-- Row -->
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
+                @include('flash::message')
                 @yield('content')
                 <div class="modal fade" id="deleteModal" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog">
@@ -241,6 +237,8 @@
     $(document).ready(function() {
         $('.textarea_editor').wysihtml5(),
         $('.textarea_editor1').wysihtml5();
+
+        $('div.alert').not('.alert-important').delay(3000).fadeOut(350);   
 
         $('.edit_toggle').on('click', function(e){
             var menu = jQuery.parseJSON( $(this).attr('data-rel') );
