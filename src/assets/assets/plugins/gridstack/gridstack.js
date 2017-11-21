@@ -1197,9 +1197,11 @@
                 item.id = el.dataset.id;
                 item.x = el.dataset.gsX;
                 item.y = el.dataset.gsY;
+                item.width = el.dataset.gsWidth;
+                item.height = el.dataset.gsHeight;
                 items.push(item);
             });
-
+            
             $.ajax({
                     url: route,
                     method: 'PUT',
