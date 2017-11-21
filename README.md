@@ -38,3 +38,4 @@ php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingSer
 ##
 
 And if you have already install/installed package roles - [click here](https://github.com/selfrelianceme/fixroles/blob/master/README.md)
+have already install/installed package flash - [click here](https://github.com/laracasts/flash/blob/master/readme.md)
