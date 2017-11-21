@@ -142,7 +142,7 @@
                         </ol>
                     </div>
                     @push('display')
-                    {{ $time }}
+                    {{ \Carbon\Carbon::now()->format(config('adminamazing.timeFormat')) }}
                     @endpush
                     <div class="col-md-6 col-4 align-self-center">
                         <div class="pull-right">

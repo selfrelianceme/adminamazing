@@ -7,25 +7,19 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-block">
-                    @if(count($blocks) > 0)
-                    <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
-                            @foreach($blocks as $block)
-                            <div class="grid-stack-item" data-id="{{$block->id}}" data-gs-x="{{$block->posX}}" data-gs-y="{{$block->posY}}" data-gs-width="3" data-gs-height="3" data-gs-no-resize="yes" data-gs-no-move="yes">
-                                <div class="grid-stack-item-content">
-                                    {!!\Blocks::get($block->view)!!}
-                                </div>
-                            </div>
-                            @endforeach
-                    </div>
-                    @else
-                    <div class="alert text-center">
-                        <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Information</h3> На данный момент отсутствуют блоки, <a href="{{route('AdminBlocks')}}"><i class="fa fa-map-marker" aria-hidden="true"></i> добавить</a>
-                    </div>
-                    @endif
+            @if(count($blocks) > 0)
+                <div class="grid-stack" data-gs-width="12" data-gs-height="12" data-gs-animate="yes">
+                    @foreach($blocks as $block)
+                        <div class="grid-stack-item" data-id="{{$block->id}}" data-gs-x="{{$block->posX}}" data-gs-y="{{$block->posY}}" data-gs-width="{{$block->width}}" data-gs-height="{{$block->height}}" data-gs-no-resize="yes" data-gs-no-move="yes" style="padding-left: 5px; padding-right: 5px;">
+                            <div class="col-12 grid-stack-item-content">{!!\Blocks::get($block->view)!!}</div>
+                        </div>
+                    @endforeach
                 </div>
+            @else
+            <div class="alert text-center">
+                <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Information</h3> На данный момент отсутствуют блоки, <a href="{{route('AdminBlocks')}}"><i class="fa fa-map-marker" aria-hidden="true"></i> добавить</a>
             </div>
+            @endif
         </div>
     </div>
 

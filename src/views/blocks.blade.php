@@ -16,8 +16,8 @@
                 </form>
                 <div class="card-block">
                     <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
-                        @foreach($blocks as $block)
-                        <div class="grid-stack-item" data-id="{{$block->id}}" data-gs-x="{{$block->posX}}" data-gs-y="{{$block->posY}}" data-gs-width="3" data-gs-height="4" data-gs-no-resize="yes">
+                        @foreach($blocks as $block)                       
+                        <div class="grid-stack-item" data-id="{{$block->id}}" data-gs-x="{{$block->posX}}" data-gs-y="{{$block->posY}}" data-gs-width="{{$block->width}}" data-gs-height="{{$block->height}}" data-gs-no-resize="no">
                             <div class="grid-stack-item-content">
                                 <form action="{{route('AdminBlockDelete', $block->id)}}" method="POST">
                                     {{method_field('DELETE')}}
@@ -37,9 +37,6 @@
 
     @push('scripts')
         <script>var route = '{{ route('AdminBlockUpdate') }}'</script>
-<!--         <script src="{{ asset('vendor/adminamazing/assets/plugins/chartist-js/dist/chartist.min.js') }}"></script>
-        <script src="{{ asset('vendor/adminamazing/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js') }}"></script>
-        <script src="{{ asset('vendor/adminamazing/js/dashboard5.js') }}"></script> -->
         <script src="{{ asset('vendor/adminamazing/assets/plugins/jqueryui/jquery-ui.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script src="{{ asset('vendor/adminamazing/assets/plugins/gridstack/lodash.js') }}"></script>

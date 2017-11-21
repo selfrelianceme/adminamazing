@@ -4,24 +4,19 @@ namespace Selfreliance\Adminamazing;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Selfreliance\Adminamazing\Models\Block;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        \Carbon\Carbon::setToStringFormat(config('adminamazing.timeFormat'));
-        \View::share('time', \Carbon\Carbon::now());
-    }
-
     public function index($edit = false)
     {
-        $blocks = \DB::table('blocks')->orderBy('sort', 'asc')->get();
+        $blocks = Block::orderBy('sort', 'asc')->get();
         return view('adminamazing::home', compact('blocks'));
     }
 
     public function blocks()
     {
-        $blocks = \DB::table('blocks')->orderBy('sort', 'asc')->get();
+        $blocks = Block::orderBy('sort', 'asc')->get();
         return view('adminamazing::blocks', compact('blocks'));
     }
 
@@ -32,12 +27,16 @@ class AdminController extends Controller
             $blocks = 0;
             foreach($request['selected_blocks'] as $selected)
             {
-                \DB::table('blocks')->insert([
+                $data = [
                     'view' => $selected,
                     'posX' => 0,
                     'posY' => 0,
+                    'width' => 2,
+                    'height' => 3,
                     'sort' => 0
-                ]);
+                ];
+
+                Block::create($data);
 
                 $blocks++;
             }
@@ -57,7 +56,9 @@ class AdminController extends Controller
 
     public function deleteBlock($id)
     {
-        \DB::table('blocks')->where('id', $id)->delete();
+        $block = Block::findOrFail($id);
+
+        $block->delete();
 
         return redirect()->route('AdminMain');
     }
@@ -68,11 +69,17 @@ class AdminController extends Controller
         $items = $request->input('items');
         foreach($items as $item)
         {
-            \DB::table('blocks')->where('id', $item['id'])->update([
+            $block = Block::find($item['id']);
+
+            $data = [
                 'posX' => $item['x'],
                 'posY' => $item['y'],
+                'width' => $item['width'],
+                'height' => $item['height'],
                 'sort' => $i
-            ]);
+            ];
+            
+            $block->update($data);
 
             $i++;
         }
