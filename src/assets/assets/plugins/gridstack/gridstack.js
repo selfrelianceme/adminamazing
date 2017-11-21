@@ -689,7 +689,6 @@
             '<div class="placeholder-content">' + this.opts.placeholderText + '</div></div>').hide();
 
         this._updateContainerHeight();
-
         this._updateHeightsOnResize = _.throttle(function() {
             self.cellHeight(self.cellWidth(), false);
         }, 100);
@@ -1190,6 +1189,28 @@
                 });
                 o.find('.grid-stack-item').trigger('resizestop');
             }
+
+            var items = [];
+
+            $('.grid-stack-item').map(function(index, el) {
+                var item = new Object();
+                item.id = el.dataset.id;
+                item.x = el.dataset.gsX;
+                item.y = el.dataset.gsY;
+                items.push(item);
+            });
+
+            $.ajax({
+                    url: route,
+                    method: 'PUT',
+                    data: { items },
+                    headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(res) {
+                        console.log(res);
+                    }
+            });
         };
 
         this.dd

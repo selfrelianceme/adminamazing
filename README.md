@@ -19,4 +19,22 @@ Config, Middleware, Styles
 php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --force
 ```
 
+## Blocks
+
+# Register
+
+\Blocks::register('name', function(){
+	return '123';
+}); // register block with function
+
+\Blocks::register('name', 'NameClass@function'); // register block with class
+
+# Get
+
+\Blocks::get('name'); // get block name
+
+\Blocks::all(); // all blocks
+
+##
+
 And if you have already install/installed package roles - [click here](https://github.com/selfrelianceme/fixroles/blob/master/README.md)

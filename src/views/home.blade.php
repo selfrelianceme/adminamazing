@@ -1,95 +1,50 @@
 @extends('adminamazing::teamplate')
 
 @section('pageTitle', 'Панель управления')
+@push('display')
+    <a href="{{route('AdminBlocks')}}"><button type="button" class="btn btn-info btn-md">Редактировать блоки</button></a>
+@endpush
 @section('content')
     <div class="row">
-        <!-- Column -->
-        <div class="col-lg-6">
+        <div class="col-12">
             <div class="card">
                 <div class="card-block">
-                    <ul class="list-inline pull-right">
-                        <li>
-                            <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-success"></i>Регистраций</h6>
-                        </li>
-                        <li>
-                            <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-info"></i>Транзакций</h6>
-                        </li>
-                    </ul>
-                    <h4 class="card-title">Динамика</h4>
-                    <div class="clear"></div>
-                    <div class="total-revenue" style="height: 240px;"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Column -->
-        <div class="col-lg-6">
-            <!-- Row -->
-            <div class="row">
-                <!-- Column -->
-                <div class="col-sm-6">
-                    <div class="card card-block">
-                        <!-- Row -->
-                        <div class="row p-t-10 p-b-10">
-                            <!-- Column -->
-                            <div class="col p-r-0">
-                                <h1 class="font-light">{{$CountAllUsers}}</h1>
-                                <h6 class="text-muted">Новых клиентов</h6></div>
-                            <!-- Column -->
-                            <div class="col text-right align-self-center">
-                                <div data-label="20%" class="css-bar m-b-0 css-bar-primary css-bar-20"><i class="mdi mdi-account-circle"></i></div>
+                    @if(count($blocks) > 0)
+                    <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
+                            @foreach($blocks as $block)
+                            <div class="grid-stack-item" data-id="{{$block->id}}" data-gs-x="{{$block->posX}}" data-gs-y="{{$block->posY}}" data-gs-width="3" data-gs-height="3" data-gs-no-resize="yes" data-gs-no-move="yes">
+                                <div class="grid-stack-item-content">
+                                    {!!\Blocks::get($block->view)!!}
+                                </div>
                             </div>
-                        </div>
+                            @endforeach
                     </div>
-                </div>
-                <!-- Column -->
-                <div class="col-sm-6">
-                    <div class="card card-block">
-                        <!-- Row -->
-                        <div class="row p-t-10 p-b-10">
-                            <!-- Column -->
-                            <div class="col p-r-0">
-                                <h1 class="font-light">248</h1>
-                                <h6 class="text-muted">Подключеных сервисов</h6></div>
-                            <!-- Column -->
-                            <div class="col text-right align-self-center">
-                                <div data-label="30%" class="css-bar m-b-0 css-bar-danger css-bar-20"><i class="mdi mdi-briefcase-check"></i></div>
-                            </div>
-                        </div>
+                    @else
+                    <div class="alert text-center">
+                        <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Information</h3> На данный момент отсутствуют блоки, <a href="{{route('AdminBlocks')}}"><i class="fa fa-map-marker" aria-hidden="true"></i> добавить</a>
                     </div>
-                </div>
-                <!-- Column -->
-                <div class="col-sm-6">
-                    <div class="card card-block">
-                        <!-- Row -->
-                        <div class="row p-t-10 p-b-10">
-                            <!-- Column -->
-                            <div class="col p-r-0">
-                                <h1 class="font-light">352</h1>
-                                <h6 class="text-muted">Новых заявок</h6></div>
-                            <!-- Column -->
-                            <div class="col text-right align-self-center">
-                                <div data-label="40%" class="css-bar m-b-0 css-bar-warning css-bar-40"><i class="mdi mdi-star-circle"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Column -->
-                <div class="col-sm-6">
-                    <div class="card card-block">
-                        <!-- Row -->
-                        <div class="row p-t-10 p-b-10">
-                            <!-- Column -->
-                            <div class="col p-r-0">
-                                <h1 class="font-light">159</h1>
-                                <h6 class="text-muted">Платежей в день</h6></div>
-                            <!-- Column -->
-                            <div class="col text-right align-self-center">
-                                <div data-label="60%" class="css-bar m-b-0 css-bar-info css-bar-60"><i class="mdi mdi-receipt"></i></div>
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script src="{{ asset('vendor/adminamazing/assets/plugins/jqueryui/jquery-ui.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script src="{{ asset('vendor/adminamazing/assets/plugins/gridstack/lodash.js') }}"></script>
+        <script src="{{ asset('vendor/adminamazing/assets/plugins/gridstack/gridstack.js') }}"></script>
+        <script src="{{ asset('vendor/adminamazing/assets/plugins/gridstack/gridstack.jQueryUI.js') }}"></script>
+        <script type="text/javascript">
+        $(function() {
+            $('.grid-stack').gridstack({
+                width: 12,
+                alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+                resizable: {
+                    handles: 'e, se, s, sw, w'
+                }
+            });
+        });
+        </script>
+    @endpush
 @endsection

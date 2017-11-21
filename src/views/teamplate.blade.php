@@ -20,6 +20,7 @@
     <link href="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/nestable/nestable.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/adminamazing/assets/plugins/css-chart/css-chart.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/adminamazing/assets/plugins/gridstack/gridstack.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="{{ asset('vendor/adminamazing/css/style.css') }}" rel="stylesheet">
@@ -35,6 +36,7 @@
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+    <script>var message = '';</script>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -139,6 +141,14 @@
                             <li class="breadcrumb-item active">@yield('pageTitle')</li>
                         </ol>
                     </div>
+                    @push('display')
+                    {{ $time }}
+                    @endpush
+                    <div class="col-md-6 col-4 align-self-center">
+                        <div class="pull-right">
+                            @stack('display')
+                        </div>
+                    </div>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
@@ -154,9 +164,7 @@
                         <div class="modal-content">
                             <form action="" method="POST" class="form-horizontal" id="deleteForm">
                                 <div class="modal-header"></div>
-                                <div class="modal-body">
-                                    <script>document.write(message)</script>
-                                </div>
+                                <div class="modal-body" id="deleteText"></div>
                                 <div class="modal-footer">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
@@ -204,10 +212,7 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{ asset('vendor/adminamazing/assets/plugins/bootstrap/js/tether.min.js') }}"></script>
     <script src="{{ asset('vendor/adminamazing/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{ asset('vendor/adminamazing/js/jquery.slimscroll.js') }}"></script>
-    <!-- chat -->
-    <script src="{{ asset('vendor/adminamazing/js/chat.js') }}"></script>
     <!--Wave Effects -->
     <script src="{{ asset('vendor/adminamazing/js/waves.js') }}"></script>
     <!--Menu sidebar -->
@@ -216,88 +221,27 @@
     <script src="{{ asset('vendor/adminamazing/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js') }}"></script>
     <!--Custom JavaScript -->
     <script src="{{ asset('vendor/adminamazing/js/custom.min.js') }}"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
-    <!-- chartist chart -->
-    <script src="{{ asset('vendor/adminamazing/assets/plugins/chartist-js/dist/chartist.min.js') }}"></script>
-    <script src="{{ asset('vendor/adminamazing/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js') }}"></script>
-    <!-- Chart JS -->
-    <script src="{{ asset('vendor/adminamazing/assets/plugins/echarts/echarts-all.js') }}"></script>
-    <script src="{{ asset('vendor/adminamazing/js/dashboard5.js') }}"></script>
+    <!--Wysihtml -->
+    <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/wysihtml5-0.3.0.js') }}"></script>
+    <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.js') }}"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="{{ asset('vendor/adminamazing/assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
 
-    <script src="{{ asset('vendor/adminamazing/assets/plugins/nestable/jquery.nestable.js') }}"></script>
-    <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/wysihtml5-0.3.0.js') }}"></script>
-    <script src="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.js') }}"></script>
-    <script>
-    $(document).ready(function() {
-        $('.textarea_editor').wysihtml5(),
-        $('.textarea_editor1').wysihtml5();
-
-        $('div.alert').not('.alert-important').delay(3000).fadeOut(350);   
-
-        $('.edit_toggle').on('click', function(e){
-            var menu = jQuery.parseJSON( $(this).attr('data-rel') );
-            $('#editModal').find('input[name=title]').val(menu.title);
-            $('#editModal').find('input[name=icon]').val(menu.icon);
-            $('#editModal').find('input[type=hidden][name=id]').val(menu.id);
-        });
-
-        $('.delete_toggle').on('click', function(e){
-            route = route+'/'+$(this).attr('data-id');
-            document.getElementById('deleteForm').setAttribute("action", route);
-        });        
-
-        var updateOutput = function(e) {
-            var list = e.length ? e : $(e.target),
-                output = list.data('output');
-
-            $.ajax({
-                    url: '{{route('AdminMenuUpdate', 'tree')}}',
-                    method: 'PUT',
-                    data: {
-                        tree: list.nestable('serialize')
-                    },
-                    headers: {
-                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(res) {
-                        console.log(res);
-                    }
+    @push('scripts')
+        <script>
+            $('.delete_toggle').on('click', function(e){
+                var temp = route;
+                route = route+'/'+$(this).attr('data-id');
+                $('#deleteText').text(message);
+                $('#deleteForm').attr('action', route);
+                route = temp;
             });
+        </script>
+    @endpush
 
-            if (window.JSON) {           
-                output.val(window.JSON.stringify(list.nestable('serialize'))); //, null, 2));
-            } else {
-                output.val('JSON browser support required for this demo.');
-            }
-        };
-
-        $('#nestable2').nestable({
-            group: 1
-        }).on('change', updateOutput);
-
-        updateOutput($('#nestable2').data('output', $('#nestable-output')));
-
-        $('#nestable-menu').on('click', function(e) {
-            var target = $(e.target),
-                action = target.data('action');
-
-            if (action === 'expand-all') {
-                $('.dd').nestable('expandAll');
-            }
-            if (action === 'collapse-all') {
-                $('.dd').nestable('collapseAll');
-            }
-        });
-
-        $('#nestable-menu').nestable();
-    });
-    </script>
+    @stack('scripts')
 </body>
 
 </html>

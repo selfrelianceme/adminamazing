@@ -13,25 +13,23 @@ class AdminAmazingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Роуты
         include __DIR__.'/routes.php';
-
         $this->app->make('Selfreliance\Adminamazing\AdminController');
-        // Загружаем view в глабвльную видимость
-        $this->loadViewsFrom(__DIR__.'/views', 'adminamazing');
-
-        // Стили, скрипты, необходимо поместить в папку паблик
+        $this->loadViewsFrom(
+            __DIR__.'/views', 'adminamazing'
+        );
         $this->publishes([
-            __DIR__.'/assets/' => public_path('vendor/adminamazing'),
-        ], 'assets');
-
+            __DIR__.'/assets/' => public_path('vendor/adminamazing')], 'assets'
+        );
         $this->publishes([
-            __DIR__.'/config/adminamazing.php' => config_path('adminamazing.php'),
-        ], 'config');
-
+            __DIR__.'/config/adminamazing.php' => config_path('adminamazing.php')], 'config'
+        );
         $this->publishes([
-            __DIR__.'/middleware/CheckAccess.php' => app_path('Http/Middleware/CheckAccess.php'),
-        ], 'middleware');
+            __DIR__ . '/migrations/' => database_path('migrations')], 'migrations'
+        );
+        $this->publishes([
+            __DIR__.'/middleware/CheckAccess.php' => app_path('Http/Middleware/CheckAccess.php')], 'middleware'
+        );
     }
 
     /**
@@ -41,6 +39,13 @@ class AdminAmazingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('blocks', function($app){
+            $blade = $app['view']
+                ->getEngineResolver()
+                ->resolve('blade')
+                ->getCompiler();
+
+            return new \Selfreliance\Adminamazing\Blocks($blade, $app);
+        });
     }
 }

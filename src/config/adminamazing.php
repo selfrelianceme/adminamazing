@@ -1,5 +1,6 @@
 <?php
 
 return [
-	'path'		=>	"admin"
+	'path'		=>	"admin",
+	'timeFormat' => "H:i:s Y-m-d"
 ];

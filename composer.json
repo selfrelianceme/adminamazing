@@ -1,7 +1,7 @@
 {
     "name": "selfreliance/adminamazing",
     "type": "library",
-    "version": "1.0.38",
+    "version": "1.0.39",
     "description": "Admin for service laravel",
     "keywords": ["admin", "laravel"],
     "homepage": "https://github.com/selfrelianceme/adminamazing",
@@ -16,7 +16,10 @@
       	"laravel":{
           	"providers": [
            	 	"Selfreliance\\Adminamazing\\AdminAmazingServiceProvider"
-          	]
+          	],
+            "aliases": {
+                "Blocks": "Selfreliance\\Adminamazing\\Facades\\Blocks"
+            }
       }
  	},
     "require": {

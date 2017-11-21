@@ -30,7 +30,7 @@ class CheckAccess
                     if($role)
                     {
                         $menu = DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                        $result = makeMenu($menu, $role, 1);
+                        $result = \Menu::make($menu, $role, 1);
                         View::share('menu', $result);
                     }
                     else return abort(404);
