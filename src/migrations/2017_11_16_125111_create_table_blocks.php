@@ -13,13 +13,15 @@ class CreateTableBlocks extends Migration
      */
     public function up()
     {
-        Schema::create('blocks', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('view');
-            $table->integer('posX');
-            $table->integer('posY');
-            $table->integer('sort');
-        });
+    	if(!Schema::hasTable('blocks')){
+	        Schema::create('blocks', function(Blueprint $table) {
+	            $table->increments('id');
+	            $table->string('view');
+	            $table->integer('posX');
+	            $table->integer('posY');
+	            $table->integer('sort');
+	        });
+    	}
     }
 
     /**
@@ -29,6 +31,6 @@ class CreateTableBlocks extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('blocks');
     }
 }
