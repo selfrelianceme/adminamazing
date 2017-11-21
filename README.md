@@ -23,17 +23,19 @@ php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingSer
 
 # Register
 
+```
 \Blocks::register('name', function(){
 	return '123';
 }); // register block with function
-
 \Blocks::register('name', 'NameClass@function'); // register block with class
+```
 
 # Get
 
+```
 \Blocks::get('name'); // get block name
-
 \Blocks::all(); // all blocks
+```
 
 ##
 
