@@ -16,15 +16,18 @@
                 </form>
                 <div class="card-block">
                     <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
-                        @foreach($blocks as $block)                       
+                        @foreach($blocks as $block)
                         <div class="grid-stack-item" data-id="{{$block->id}}" data-gs-x="{{$block->posX}}" data-gs-y="{{$block->posY}}" data-gs-width="{{$block->width}}" data-gs-height="{{$block->height}}" data-gs-no-resize="no">
-                            <div class="grid-stack-item-content">
-                                <form action="{{route('AdminBlockDelete', $block->id)}}" method="POST">
-                                    {{method_field('DELETE')}}
-                                    <button type="submit" class="btn">
-                                        <span class="fa fa-trash-o" aria-hidden="true"></span> Удалить
-                                    </button>
-                                </form>
+                            <div class="col-12 grid-stack-item-content">
+                                <div style = "position: absolute; top: 0; right: 0; z-index: 1;">
+                                    <form action="{{route('AdminBlockDelete', $block->id)}}" method="POST">
+                                        {{method_field('DELETE')}}
+                                        <button type="submit" class="btn btn-danger">
+                                            <span class="fa fa-trash-o" aria-hidden="true"></span>
+                                        </button>
+                                        {{csrf_field()}}
+                                    </form>
+                                </div>
                                 {!!\Blocks::get($block->view)!!}
                             </div>
                         </div>

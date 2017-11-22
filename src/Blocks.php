@@ -27,38 +27,47 @@ class Blocks
 
 	public function register($name, $callback)
 	{
-		$this->blocks[$name] = $callback;
+        $this->blocks[$name] = $callback;
 
-		$this->registerBlade($name);
+        $this->registerBlade($name);
 	}
-
-    protected function registerBlade($name)
-    {
-        $this->blade->extend(function ($view, $compiler) use ($name) {
-            $pattern = $this->createMatcher($name);
-            $replace = '$1<?php echo Block::'.$name.'$2; ?>';
-            return preg_replace($pattern, $replace, $view);
-        });
-    }
-
-    protected function createMatcher($function)
-    {
-        return '/(?<!\w)(\s*)@'.$function.'(\s*\(.*\))/';
-    }
 
     public function has($name)
     {
-    	return array_key_exists($name, $this->blocks);
+    	return array_search($name, $this->blocks);
     }
 
     public function get($name, array $parameters = [])
     {
-    	if($this->has($name))
+    	if(!is_null($name))
     	{
     		$callback = $this->blocks[$name];
 
     		return $this->getCallback($callback, $parameters);
     	}
+    }
+
+    protected function registerBlade($name)
+    {
+        $name = $this->has($name);
+        if(!is_null($name))
+        {
+            $this->blade->extend(function ($view, $compiler) use ($name) {
+                $pattern = $this->createMatcher($name);
+                $replace = '$1<?php echo Block::'.$name.'$2; ?>';
+                return preg_replace($pattern, $replace, $view);
+            });
+        }
+        else
+        {
+            unset($this->blocks[$name]);
+            return false;
+        }
+    }
+
+    protected function createMatcher($function)
+    {
+        return '/(?<!\w)(\s*)@'.$function.'(\s*\(.*\))/';
     }
 
     protected function getCallback($callback, array $parameters)

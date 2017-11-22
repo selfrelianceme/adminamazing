@@ -8,7 +8,7 @@ use Selfreliance\Adminamazing\Models\Block;
 
 class AdminController extends Controller
 {
-    public function index($edit = false)
+    public function index()
     {
         $blocks = Block::orderBy('sort', 'asc')->get();
         return view('adminamazing::home', compact('blocks'));
@@ -20,38 +20,65 @@ class AdminController extends Controller
         return view('adminamazing::blocks', compact('blocks'));
     }
 
+    public function getNumEnding($iNumber, $aEndings)
+    {
+        $sEnding =
+        $i = 0;
+        $iNumber = $iNumber % 100;
+        if ($iNumber>=11 && $iNumber<=19) {
+            $sEnding=$aEndings[2];
+        }
+        else {
+            $i = $iNumber % 10;
+            switch ($i)
+            {
+                case (1): $sEnding = $aEndings[0]; break;
+                case (2):
+                case (3):
+                case (4): $sEnding = $aEndings[1]; break;
+                default: $sEnding = $aEndings[2];
+            }
+        }
+        return $sEnding;
+    }
+
     public function addBlocks(Request $request)
     {
         if(!is_null($request['selected_blocks']))
         {
-            $blocks = 0;
+            $addedBlocks = 0;
+            $blocks = Block::orderBy('sort', 'asc')->whereIn('view', $request['selected_blocks'])->get();
             foreach($request['selected_blocks'] as $selected)
             {
-                $data = [
-                    'view' => $selected,
-                    'posX' => 0,
-                    'posY' => 0,
-                    'width' => 2,
-                    'height' => 3,
-                    'sort' => 0
+                if(!$blocks->contains('view', $selected))
+                {
+                    $data = [
+                        'view' => $selected,
+                        'posX' => 0,
+                        'posY' => 0,
+                        'width' => 2,
+                        'height' => 3,
+                        'sort' => 0
+                    ];
+
+                    Block::create($data);
+
+                    $addedBlocks++;
+                }
+            }
+
+            if(count($addedBlocks) > 0 && $addedBlocks != 0)
+            {
+                $ending = [
+                    ['блок', 'добавлен'], ['блока', 'добавлено'], ['блоков', 'добавлены']
                 ];
 
-                Block::create($data);
-
-                $blocks++;
-            }
-
-            if($blocks > 1)
-            {
-                flash()->success('Блоки добавлены');
-            }
-            else
-            {
-                flash()->success('Блок добавлен');
+                $ending = self::getNumEnding($addedBlocks, $ending);
+                flash()->success($addedBlocks.' '.$ending[0].' '.$ending[1]);   
             }
         }
 
-        return redirect()->route('AdminMain');
+        return redirect()->route('AdminBlocks');
     }
 
     public function deleteBlock($id)
@@ -60,30 +87,38 @@ class AdminController extends Controller
 
         $block->delete();
 
-        return redirect()->route('AdminMain');
+        flash()->success('Блок удален');
+
+        return redirect()->route('AdminBlocks');
     }
 
     public function updateBlocks(Request $request)
     {
         $i = 1;
-        $items = $request->input('items');
-        foreach($items as $item)
+        $items = $request['items'];
+
+        if(!is_null($items))
         {
-            $block = Block::find($item['id']);
+            $blocks = Block::orderBy('sort', 'asc')->get();
+            foreach($items as $item)
+            {
+                if($blocks->contains('id', $item['id']))
+                {
+                    $data = [
+                        'posX' => $item['x'],
+                        'posY' => $item['y'],
+                        'width' => $item['width'],
+                        'height' => $item['height'],
+                        'sort' => $i
+                    ];
+                    
+                    Block::where('id', $item['id'])->update($data);
 
-            $data = [
-                'posX' => $item['x'],
-                'posY' => $item['y'],
-                'width' => $item['width'],
-                'height' => $item['height'],
-                'sort' => $i
-            ];
-            
-            $block->update($data);
-
-            $i++;
+                    $i++;
+                }
+            }
         }
 
-        return \Response::json(["success" => true], "200");
+        return \Response::json(['success' => true], '200');
     }
 }
