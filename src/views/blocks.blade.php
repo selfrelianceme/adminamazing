@@ -5,15 +5,17 @@
     <div class="row">   
         <div class="col-12">
             <div class="card">
+                @if(count($allBlocks) > 0)
                 <form action="{{route('AdminBlocksAdd')}}" method="POST" class="form-horizontal">
-                    <select class="form-control" name="selected_blocks[]" multiple size="{{ count(\Blocks::all()) }}">
-                    @foreach(\Blocks::all() as $key => $block)
+                    <select class="form-control" name="selected_blocks[]" multiple size="{{ count($allBlocks) }}">
+                    @foreach($allBlocks as $key => $value)
                     <option value="{{$key}}">{{$key}}</option>
                     @endforeach
                     </select>
                     {{csrf_field()}}
                     <button type="submit" class="btn btn-success btn-block">Добавить блок</button>
                 </form>
+                @endif
                 <div class="card-block">
                     <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
                         @foreach($blocks as $block)

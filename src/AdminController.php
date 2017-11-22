@@ -16,8 +16,11 @@ class AdminController extends Controller
 
     public function blocks()
     {
+        $allBlocks = \Blocks::all();
+        $allBlocks = array_keys($allBlocks);
+        $allBlocks = Block::orderBy('sort', 'asc')->whereNotIn('view', $allBlocks)->get();
         $blocks = Block::orderBy('sort', 'asc')->get();
-        return view('adminamazing::blocks', compact('blocks'));
+        return view('adminamazing::blocks', compact('blocks', 'allBlocks'));
     }
 
     public function getNumEnding($iNumber, $aEndings)
