@@ -5,11 +5,11 @@
     <div class="row">   
         <div class="col-12">
             <div class="card">
-                @if(count($allBlocks) > 0)
+                @if(count($availableBlocks) > 0)
                 <form action="{{route('AdminBlocksAdd')}}" method="POST" class="form-horizontal">
-                    <select class="form-control" name="selected_blocks[]" multiple size="{{ count($allBlocks) }}">
-                    @foreach($allBlocks as $key => $value)
-                    <option value="{{$key}}">{{$key}}</option>
+                    <select class="form-control" name="selected_blocks[]" multiple size="{{ count($availableBlocks) }}">
+                    @foreach($availableBlocks as $block)
+                    <option value="{{$block}}">{{$block}}</option>
                     @endforeach
                     </select>
                     {{csrf_field()}}

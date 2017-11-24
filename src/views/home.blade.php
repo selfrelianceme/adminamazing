@@ -16,8 +16,10 @@
                     @endforeach
                 </div>
             @else
-            <div class="alert text-center">
-                <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Information</h3> На данный момент отсутствуют блоки, <a href="{{route('AdminBlocks')}}"><i class="fa fa-map-marker" aria-hidden="true"></i> добавить</a>
+            <div class="card card-block">
+                <div class="alert text-center">
+                    <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> Information</h3> На данный момент отсутствуют блоки, <a href="{{route('AdminBlocks')}}"><i class="fa fa-map-marker" aria-hidden="true"></i> добавить</a>
+                </div>
             </div>
             @endif
         </div>

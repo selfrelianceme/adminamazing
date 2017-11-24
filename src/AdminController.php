@@ -15,20 +15,41 @@ class AdminController extends Controller
         $this->block = $model;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $blocks = $this->block->orderBy('sort', 'asc')->get();
         return view('adminamazing::home', compact('blocks'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function blocks()
     {
-        $collectionBlocks = collect(\Blocks::all());
-        $allBlocks = $this->block->orderBy('sort', 'asc')->whereNotIn('view', $collectionBlocks->keys())->get();
+        $allBlocks = array_keys(\Blocks::all());
         $blocks = $this->block->orderBy('sort', 'asc')->get();
-        return view('adminamazing::blocks', compact('blocks', 'allBlocks'));
+
+        $current_blocks = array();
+        $blocks->each(function($row) use (&$current_blocks){
+            $current_blocks[] = $row->view;
+        });
+
+        $availableBlocks = array();
+        foreach($allBlocks as $block)
+        {
+            if(!in_array($block, $current_blocks)) $availableBlocks[] = $block;
+        }
+
+        return view('adminamazing::blocks', compact('blocks', 'availableBlocks'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function addBlocks(Request $request)
     {
         $selectedBlocks = $request['selected_blocks'];
@@ -65,7 +86,7 @@ class AdminController extends Controller
 
                 if($number >= 11 && $number <= 19)
                 {
-                    $ending = ['блоков', 'добавлено'];
+                    $ending = ['блоков', 'добавлены'];
                 }
                 else 
                 {
@@ -75,8 +96,8 @@ class AdminController extends Controller
                         case (1): $ending = ['блок', 'добавлен']; break;
                         case (2):
                         case (3):
-                        case (4): $ending = ['блоков', 'добавлены']; break;
-                        default: $ending = ['блока', 'добавлено'];
+                        case (4): $ending = ['блока', 'добавлено']; break;
+                        default: $ending = ['блоков', 'добавлены'];
                     }
                 }
 
@@ -87,6 +108,10 @@ class AdminController extends Controller
         return redirect()->route('AdminBlocks');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateBlocks(Request $request)
     {
         $sort = 1;
@@ -117,6 +142,10 @@ class AdminController extends Controller
         return \Response::json(['success' => true], '200');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteBlock($id)
     {
         $block = $this->block->findOrFail($id);
