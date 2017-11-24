@@ -17,11 +17,11 @@ class CheckAccess
     {
         if(\Auth::check() && \Auth::user()->role_id != -1)
         {
-            if(\Auth::User()->checkRole(\Route::current()->getPrefix(), true))
+        	$role = \Auth::User()->checkRole(\Route::current()->getPrefix(), true);
+            if($role)
             {
                 $menu = \DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                $role = \Auth::User()->getRole(\Auth::user()->role_id);
-                $result = \Menu::make($menu, $role->accessible_pages, 1);
+                $result = \Menu::make($menu, $role, 1);
                 \View::share('menu', $result);
             }
             else
