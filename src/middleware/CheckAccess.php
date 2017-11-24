@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-//
 
 class CheckAccess
 {
@@ -21,7 +20,7 @@ class CheckAccess
             if(\Auth::User()->checkRole(\Route::current()->getPrefix(), true))
             {
                 $menu = \DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                $role = \Auth::User()->getRole();
+                $role = \Auth::User()->getRole(\Auth::user()->role_id);
                 $result = \Menu::make($menu, $role->accessible_pages, 1);
                 \View::share('menu', $result);
             }
