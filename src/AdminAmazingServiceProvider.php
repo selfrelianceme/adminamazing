@@ -15,21 +15,10 @@ class AdminAmazingServiceProvider extends ServiceProvider
     {
         include __DIR__.'/routes.php';
         $this->app->make('Selfreliance\Adminamazing\AdminController');
-        $this->loadViewsFrom(
-            __DIR__.'/views', 'adminamazing'
-        );
-        $this->publishes([
-            __DIR__.'/assets/' => public_path('vendor/adminamazing')], 'assets'
-        );
-        $this->publishes([
-            __DIR__.'/config/adminamazing.php' => config_path('adminamazing.php')], 'config'
-        );
-        $this->publishes([
-            __DIR__ . '/migrations/' => database_path('migrations')], 'migrations'
-        );
-        $this->publishes([
-            __DIR__.'/middleware/CheckAccess.php' => app_path('Http/Middleware/CheckAccess.php')], 'middleware'
-        );
+        $this->loadViewsFrom(__DIR__.'/views', 'adminamazing');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->publishes([__DIR__.'/assets/' => public_path('vendor/adminamazing')], 'assets');
+        $this->publishes([__DIR__.'/config/adminamazing.php' => config_path('adminamazing.php')], 'config');
     }
 
     /**

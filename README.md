@@ -26,7 +26,7 @@ Install via composer
 composer require selfreliance/adminamazing
 ```
 
-Config, Middleware, Styles
+Config, Styles
 ```php
 php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --force
 ```
