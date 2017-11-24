@@ -21,7 +21,8 @@ class CheckAccess
             if(\Auth::User()->checkRole(\Route::current()->getPrefix(), true))
             {
                 $menu = \DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                $result = \Menu::make($menu, \Auth::user()->role_id, 1);
+                $role = \Auth::User()->getRole();
+                $result = \Menu::make($menu, $role->accessible_pages, 1);
                 \View::share('menu', $result);
             }
             else
