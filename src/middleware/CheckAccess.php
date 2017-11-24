@@ -16,12 +16,12 @@ class CheckAccess
      */
     public function handle($request, Closure $next)
     {
-        if(\Auth::check() && Auth::user()->role_id != -1)
+        if(\Auth::check() && \Auth::user()->role_id != -1)
         {
             if(\Auth::User()->checkRole(\Route::current()->getPrefix(), true))
             {
                 $menu = \DB::table('admin__menu')->orderBy('sort', 'asc')->get();
-                $result = \Menu::make($menu, Auth::user()->role_id, 1);
+                $result = \Menu::make($menu, \Auth::user()->role_id, 1);
                 \View::share('menu', $result);
             }
             else
