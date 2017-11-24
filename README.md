@@ -1,5 +1,17 @@
-# Laravel 5 Admin Amazing adminrole
+# Laravel 5 Admin Amazing
 adminamazing - a package admin with basic roles and basic packages
+
+[How to config roles](https://github.com/selfrelianceme/fixroles/blob/master/README.md)
+[How to config flash messages](https://github.com/laracasts/flash/blob/master/readme.md)
+
+##
+
+- [Blocks](#blocks)
+	- [Creating blocks](#creating-blocks)
+	- [Get blocks](#get-blocks)
+- [Push](#push)
+	- [Push scripts](#push-scripts)
+	- [Push display](#push-display)
 
 ## Require
 
@@ -21,23 +33,40 @@ php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingSer
 
 ## Blocks
 
-# Register
+### Creating blocks
 
-```
+Blocks need to be created in __construct()
+
+```php
 \Blocks::register('name', function(){
-	return '123';
-}); // register block with function
-\Blocks::register('name', 'NameClass@function'); // register block with class
+	return 'test';
+}); // with simple function
+
+\Blocks::register('name', 'className@nameFunction'); // with function from controller/class
 ```
 
-# Get
+### Get blocks
+
+```php
+\Blocks::get('name'); // get block by name
+
+\Blocks::all(); // get all blocks
+```
+
+## Push
+
+### Push scripts
 
 ```
-\Blocks::get('name'); // get block name
-\Blocks::all(); // all blocks
+@push('scripts')
+// any your scripts
+@endpush
 ```
 
-##
+### Push display
 
-And if you have already install/installed package roles - [click here](https://github.com/selfrelianceme/fixroles/blob/master/README.md)
-have already install/installed package flash - [click here](https://github.com/laracasts/flash/blob/master/readme.md)
+```
+@push('display')
+// any for display
+@endpush
+```

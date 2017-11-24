@@ -8,50 +8,36 @@ use Selfreliance\Adminamazing\Models\Block;
 
 class AdminController extends Controller
 {
+    private $block;
+
+    public function __construct(Block $model)
+    {
+        $this->block = $model;
+    }
+
     public function index()
     {
-        $blocks = Block::orderBy('sort', 'asc')->get();
+        $blocks = $this->block->orderBy('sort', 'asc')->get();
         return view('adminamazing::home', compact('blocks'));
     }
 
     public function blocks()
     {
-        $allBlocks = \Blocks::all();
-        $allBlocks = array_keys($allBlocks);
-        $allBlocks = Block::orderBy('sort', 'asc')->whereNotIn('view', $allBlocks)->get();
-        $blocks = Block::orderBy('sort', 'asc')->get();
+        $collectionBlocks = collect(\Blocks::all());
+        $allBlocks = $this->block->orderBy('sort', 'asc')->whereNotIn('view', $collectionBlocks->keys())->get();
+        $blocks = $this->block->orderBy('sort', 'asc')->get();
         return view('adminamazing::blocks', compact('blocks', 'allBlocks'));
-    }
-
-    public function getNumEnding($iNumber, $aEndings)
-    {
-        $sEnding =
-        $i = 0;
-        $iNumber = $iNumber % 100;
-        if ($iNumber>=11 && $iNumber<=19) {
-            $sEnding=$aEndings[2];
-        }
-        else {
-            $i = $iNumber % 10;
-            switch ($i)
-            {
-                case (1): $sEnding = $aEndings[0]; break;
-                case (2):
-                case (3):
-                case (4): $sEnding = $aEndings[1]; break;
-                default: $sEnding = $aEndings[2];
-            }
-        }
-        return $sEnding;
     }
 
     public function addBlocks(Request $request)
     {
-        if(!is_null($request['selected_blocks']))
+        $selectedBlocks = $request['selected_blocks'];
+
+        if(!is_null($selectedBlocks))
         {
             $addedBlocks = 0;
-            $blocks = Block::orderBy('sort', 'asc')->whereIn('view', $request['selected_blocks'])->get();
-            foreach($request['selected_blocks'] as $selected)
+            $blocks = $this->block->orderBy('sort', 'asc')->whereIn('view', $selectedBlocks)->get();
+            foreach($selectedBlocks as $selected)
             {
                 if(!$blocks->contains('view', $selected))
                 {
@@ -64,19 +50,36 @@ class AdminController extends Controller
                         'sort' => 0
                     ];
 
-                    Block::create($data);
+                    $this->block->create($data);
 
                     $addedBlocks++;
                 }
             }
 
-            if(count($addedBlocks) > 0 && $addedBlocks != 0)
+            if($addedBlocks > 0)
             {
-                $ending = [
-                    ['блок', 'добавлен'], ['блока', 'добавлено'], ['блоков', 'добавлены']
-                ];
+                $ending =
+                $i = 0;
 
-                $ending = self::getNumEnding($addedBlocks, $ending);
+                $number = $addedBlocks % 100;
+
+                if($number >= 11 && $number <= 19)
+                {
+                    $ending = ['блоков', 'добавлено'];
+                }
+                else 
+                {
+                    $i = $addedBlocks % 10;
+                    switch($i)
+                    {
+                        case (1): $ending = ['блок', 'добавлен']; break;
+                        case (2):
+                        case (3):
+                        case (4): $ending = ['блоков', 'добавлены']; break;
+                        default: $ending = ['блока', 'добавлено'];
+                    }
+                }
+
                 flash()->success($addedBlocks.' '.$ending[0].' '.$ending[1]);   
             }
         }
@@ -84,25 +87,14 @@ class AdminController extends Controller
         return redirect()->route('AdminBlocks');
     }
 
-    public function deleteBlock($id)
-    {
-        $block = Block::findOrFail($id);
-
-        $block->delete();
-
-        flash()->success('Блок удален');
-
-        return redirect()->route('AdminBlocks');
-    }
-
     public function updateBlocks(Request $request)
     {
-        $i = 1;
+        $sort = 1;
         $items = $request['items'];
 
         if(!is_null($items))
         {
-            $blocks = Block::orderBy('sort', 'asc')->get();
+            $blocks = $this->block->orderBy('sort', 'asc')->get();
             foreach($items as $item)
             {
                 if($blocks->contains('id', $item['id']))
@@ -112,16 +104,27 @@ class AdminController extends Controller
                         'posY' => $item['y'],
                         'width' => $item['width'],
                         'height' => $item['height'],
-                        'sort' => $i
+                        'sort' => $sort
                     ];
                     
-                    Block::where('id', $item['id'])->update($data);
+                    $this->block->where('id', $item['id'])->update($data);
 
-                    $i++;
+                    $sort++;
                 }
             }
         }
 
         return \Response::json(['success' => true], '200');
     }
+
+    public function deleteBlock($id)
+    {
+        $block = $this->block->findOrFail($id);
+
+        $block->delete();
+
+        flash()->success('Блок удален');
+
+        return redirect()->route('AdminBlocks');
+    }    
 }

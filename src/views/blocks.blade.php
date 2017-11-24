@@ -41,7 +41,7 @@
     </div>
 
     @push('scripts')
-        <script>var route = '{{ route('AdminBlockUpdate') }}'</script>
+        <script>var route = '{{ route('AdminBlocksUpdate') }}'</script>
         <script src="{{ asset('vendor/adminamazing/assets/plugins/jqueryui/jquery-ui.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script src="{{ asset('vendor/adminamazing/assets/plugins/gridstack/lodash.js') }}"></script>
