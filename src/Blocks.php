@@ -25,12 +25,16 @@ class Blocks
         return $this->blocks;
     }
 
-	public function register($name, $callback)
-	{
+    public function register($name, $callback)
+    {
         $this->blocks[$name] = $callback;
 
-        $this->registerBlade($name);
-	}
+        $this->blade->extend(function ($view, $compiler) use ($name) {
+            $pattern = $this->createMatcher($name);
+            $replace = '$1<?php echo Block::'.$name.'$2; ?>';
+            return preg_replace($pattern, $replace, $view);
+        });
+    }
 
     public function has($name)
     {
@@ -45,24 +49,6 @@ class Blocks
 
     		return $this->getCallback($callback, $parameters);
     	}
-    }
-
-    protected function registerBlade($name)
-    {
-        $name = $this->has($name);
-        if(!is_null($name))
-        {
-            $this->blade->extend(function ($view, $compiler) use ($name) {
-                $pattern = $this->createMatcher($name);
-                $replace = '$1<?php echo Block::'.$name.'$2; ?>';
-                return preg_replace($pattern, $replace, $view);
-            });
-        }
-        else
-        {
-            unset($this->blocks[$name]);
-            return false;
-        }
     }
 
     protected function createMatcher($function)

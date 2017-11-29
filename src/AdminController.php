@@ -20,6 +20,10 @@ class AdminController extends Controller
      */
     public function index()
     {
+        foreach(config('adminamazing.blocks') as $block => $value)
+        {
+            \Blocks::register($block, $value);
+        }
         $blocks = $this->block->orderBy('sort', 'asc')->get();
         return view('adminamazing::home', compact('blocks'));
     }
@@ -29,6 +33,11 @@ class AdminController extends Controller
      */
     public function blocks()
     {
+        foreach(config('adminamazing.blocks') as $block => $value)
+        {
+            \Blocks::register($block, $value);
+        }
+
         $allBlocks = array_keys(\Blocks::all());
         $blocks = $this->block->orderBy('sort', 'asc')->get();
 

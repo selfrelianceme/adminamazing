@@ -17,7 +17,7 @@ class CheckAccess
     {
         if(\Auth::check() && \Auth::user()->role_id != -1)
         {
-        	$role = \Auth::User()->checkRole(\Route::current()->getPrefix(), true);
+        	$role = \Auth::user()->checkRole(\Route::current()->getPrefix(), true);
             if($role)
             {
                 $menu = \DB::table('admin__menu')->orderBy('sort', 'asc')->get();

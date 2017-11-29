@@ -31,6 +31,15 @@ Config, Styles
 php artisan vendor:publish --provider="Selfreliance\Adminamazing\AdminAmazingServiceProvider" --force
 ```
 
+## Middleware
+
+Edit model Kernel (App\Http\Kernel)
+
+Add to $routeMiddleware
+```
+'CheckAccess' => \Selfreliance\Adminamazing\Middleware\CheckAccess::class,
+```
+
 ## Blocks
 
 ### Creating blocks
