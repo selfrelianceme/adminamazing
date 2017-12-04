@@ -18,6 +18,7 @@
     <link href="{{ asset('vendor/adminamazing/assets/plugins/chartist-js/dist/chartist-init.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/html5-editor/bootstrap-wysihtml5.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/adminamazing/assets/plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/nestable/nestable.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/adminamazing/assets/plugins/css-chart/css-chart.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/adminamazing/assets/plugins/gridstack/gridstack.css') }}" rel="stylesheet">

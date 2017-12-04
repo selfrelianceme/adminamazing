@@ -38,7 +38,7 @@ class Blocks
 
     public function has($name)
     {
-    	return array_search($name, $this->blocks);
+    	return array_key_exists($name, $this->blocks);
     }
 
     public function get($name, array $parameters = [])

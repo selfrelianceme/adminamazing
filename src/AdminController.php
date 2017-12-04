@@ -15,16 +15,36 @@ class AdminController extends Controller
         $this->block = $model;
     }
 
+    public function getPackages($dir)
+    {
+        $descriptions = collect([]);
+        $files = \File::allFiles($dir);
+        foreach($files as $file)
+        {
+            if($file->getFileName() == 'description.json')
+            {
+                $descriptions->push(json_decode(\File::get($file)));
+            }
+        }
+        return $descriptions;
+    }  
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        foreach(config('adminamazing.blocks') as $block => $value)
-        {
-            \Blocks::register($block, $value);
-        }
         $blocks = $this->block->orderBy('sort', 'asc')->get();
+        $getpackages = self::getPackages(realpath(__DIR__ . '/../..'));
+        foreach($getpackages as $package)
+        {
+            if(\Config::has($package->package.'.block'))
+            {
+                $block = explode(':', config($package->package.'.block'));
+                \Blocks::register($block[0], $block[1]);
+            }
+        }
+
         return view('adminamazing::home', compact('blocks'));
     }
 
@@ -33,13 +53,18 @@ class AdminController extends Controller
      */
     public function blocks()
     {
-        foreach(config('adminamazing.blocks') as $block => $value)
+        $blocks = $this->block->orderBy('sort', 'asc')->get();
+        $getpackages = self::getPackages(realpath(__DIR__ . '/../..'));
+        foreach($getpackages as $package)
         {
-            \Blocks::register($block, $value);
+            if(\Config::has($package->package.'.block'))
+            {
+                $block = explode(':', config($package->package.'.block'));
+                \Blocks::register($block[0], $block[1]);
+            }
         }
 
         $allBlocks = array_keys(\Blocks::all());
-        $blocks = $this->block->orderBy('sort', 'asc')->get();
 
         $current_blocks = array();
         $blocks->each(function($row) use (&$current_blocks){

@@ -2,6 +2,5 @@
 
 return [
 	'path'		=>	"admin",
-	'timeFormat' => "H:i:s Y-m-d",
-    'blocks' => []
+	'timeFormat' => "H:i:s Y-m-d"
 ];
