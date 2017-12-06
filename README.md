@@ -1,13 +1,14 @@
 # Laravel 5 Admin Amazing
 adminamazing - a package admin with basic roles and basic packages
 
-[How to config roles](https://github.com/selfrelianceme/fixroles/blob/master/README.md)
-[How to config flash messages](https://github.com/laracasts/flash/blob/master/readme.md)
+- [How to config roles](https://github.com/selfrelianceme/fixroles/blob/master/README.md)
+- [How to config flash messages](https://github.com/laracasts/flash/blob/master/readme.md)
 
 ##
 
 - [Blocks](#blocks)
 	- [Creating blocks](#creating-blocks)
+	- [Config blocks](#config-blocks)
 	- [Get blocks](#get-blocks)
 - [Push](#push)
 	- [Push scripts](#push-scripts)
@@ -52,6 +53,16 @@ Blocks need to be created in __construct()
 }); // with simple function
 
 \Blocks::register('name', 'className@nameFunction'); // with function from controller/class
+```
+
+### Config blocks
+
+Create the 'blocks' parameter in the config file
+```php
+'blocks' => [
+	...
+	'nameBlock:directory',
+]
 ```
 
 ### Get blocks

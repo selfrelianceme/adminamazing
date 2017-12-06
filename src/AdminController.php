@@ -15,7 +15,7 @@ class AdminController extends Controller
         $this->block = $model;
     }
 
-    public function getPackages($dir)
+    protected function getPackages($dir)
     {
         $descriptions = collect([]);
         $files = \File::allFiles($dir);
@@ -27,63 +27,85 @@ class AdminController extends Controller
             }
         }
         return $descriptions;
-    }  
+    }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+    protected function getConfigBlocks($arr, &$temp)
+    {
+        foreach($arr as $value) 
+        {
+            if(is_array($value)) 
+            {
+                self::getConfigBlocks($value, $temp);
+            }
+            else 
+            {
+                $temp[] = $value;
+            }
+        }
+    }
+
     public function index()
     {
         $blocks = $this->block->orderBy('sort', 'asc')->get();
-        $getpackages = self::getPackages(realpath(__DIR__ . '/../..'));
-        foreach($getpackages as $package)
+        $getPackages = self::getPackages(realpath(__DIR__ . '/../..'));
+
+        $configBlocks = [];
+        foreach($getPackages as $package)
         {
             if(\Config::has($package->package.'.block'))
             {
-                $block = explode(':', config($package->package.'.block'));
-                \Blocks::register($block[0], $block[1]);
+                $configBlocks[] = config($package->package.'.block');
             }
+        }
+
+        $temp = [];
+        self::getConfigBlocks($configBlocks, $temp);
+        
+        foreach($temp as $v)
+        {
+            $block = explode(':', $v);
+            \Blocks::register($block[0], $block[1]);
         }
 
         return view('adminamazing::home', compact('blocks'));
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function blocks()
     {
         $blocks = $this->block->orderBy('sort', 'asc')->get();
-        $getpackages = self::getPackages(realpath(__DIR__ . '/../..'));
-        foreach($getpackages as $package)
+        $getPackages = self::getPackages(realpath(__DIR__ . '/../..'));
+
+        $configBlocks = [];
+        foreach($getPackages as $package)
         {
             if(\Config::has($package->package.'.block'))
             {
-                $block = explode(':', config($package->package.'.block'));
-                \Blocks::register($block[0], $block[1]);
+                $configBlocks[] = config($package->package.'.block');
             }
         }
 
-        $allBlocks = array_keys(\Blocks::all());
-
-        $current_blocks = array();
-        $blocks->each(function($row) use (&$current_blocks){
-            $current_blocks[] = $row->view;
-        });
-
-        $availableBlocks = array();
-        foreach($allBlocks as $block)
+        $temp = [];
+        self::getConfigBlocks($configBlocks, $temp);
+        
+        foreach($temp as $v)
         {
-            if(!in_array($block, $current_blocks)) $availableBlocks[] = $block;
+            $block = explode(':', $v);
+            \Blocks::register($block[0], $block[1]);
         }
+
+        $allBlocks = array_keys(\Blocks::all());
+        $current_blocks = [];
+
+        foreach($blocks as $block)
+        {
+            $current_blocks[] = $block->view;
+        }
+
+        $availableBlocks = array_diff($allBlocks, $current_blocks);
 
         return view('adminamazing::blocks', compact('blocks', 'availableBlocks'));
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function addBlocks(Request $request)
     {
         $selectedBlocks = $request['selected_blocks'];
@@ -142,10 +164,6 @@ class AdminController extends Controller
         return redirect()->route('AdminBlocks');
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function updateBlocks(Request $request)
     {
         $sort = 1;
@@ -176,10 +194,6 @@ class AdminController extends Controller
         return \Response::json(['success' => true], '200');
     }
 
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function deleteBlock($id)
     {
         $block = $this->block->findOrFail($id);
