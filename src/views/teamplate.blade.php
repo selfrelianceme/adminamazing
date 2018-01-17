@@ -9,8 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="Vlad Kit">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('vendor/adminamazing/assets/images/favicon.png') }}">
-    <title>{{ config('app.name', 'Admin Amazing Dev') }}</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset(config('adminamazing.favicon_path')) }}">
+    <title>{{ config('app.name', 'Admin Amazing Dev') }} | Admin</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('vendor/adminamazing/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- chartist CSS -->
