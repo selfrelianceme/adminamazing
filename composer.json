@@ -1,7 +1,7 @@
 {
     "name": "selfreliance/adminamazing",
     "type": "library",
-    "version": "1.0.51",
+    "version": "1.0.52",
     "description": "Admin for service laravel",
     "keywords": ["admin", "laravel"],
     "homepage": "https://github.com/selfrelianceme/adminamazing",
@@ -24,8 +24,6 @@
  	},
     "require": {
         "php": ">=5.3.0",
-        "selfreliance/fixroles": "^1.0",
-        "selfreliance/adminmenu": "^1.0",
         "laracasts/flash": "^3.0"
     },
     "require-dev": {
